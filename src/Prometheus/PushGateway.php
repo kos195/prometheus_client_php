@@ -82,7 +82,7 @@ class PushGateway
         }
         $response = $client->request($method, $url, $requestOptions);
         $statusCode = $response->getStatusCode();
-        if ($statusCode != 202) {
+        if (!in_array($statusCode, [200, 202])) {
             $msg = "Unexpected status code " . $statusCode . " received from pushgateway " . $this->address . ": " . $response->getBody();
             throw new \RuntimeException($msg);
         }
