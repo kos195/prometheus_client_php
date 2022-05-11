@@ -2,13 +2,13 @@
 namespace Test;
 
 use GuzzleHttp\Client;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 use Prometheus\CollectorRegistry;
 use Prometheus\PushGateway;
 use Prometheus\Storage\APC;
 
-class BlackBoxPushGatewayTest extends PHPUnit_Framework_TestCase
+class BlackBoxPushGatewayTest extends TestCase
 {
     /**
      * @test

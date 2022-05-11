@@ -3,7 +3,7 @@
 
 namespace Test\Prometheus;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Prometheus\Counter;
 use Prometheus\MetricFamilySamples;
 use Prometheus\Sample;
@@ -12,14 +12,14 @@ use Prometheus\Storage\Adapter;
 /**
  * See https://prometheus.io/docs/instrumenting/exposition_formats/
  */
-abstract class AbstractCounterTest extends PHPUnit_Framework_TestCase
+abstract class AbstractCounterTest extends TestCase
 {
     /**
      * @var Adapter
      */
     public $adapter;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->configureAdapter();
     }
@@ -234,19 +234,19 @@ abstract class AbstractCounterTest extends PHPUnit_Framework_TestCase
     }
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function itShouldRejectInvalidMetricsNames()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Counter($this->adapter, 'test', 'some metric invalid metric', 'help');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function itShouldRejectInvalidLabelNames()
     {
+        $this->expectException(\InvalidArgumentException::class);
         new Counter($this->adapter, 'test', 'some_metric', 'help', array('invalid label'));
     }
 
@@ -263,7 +263,7 @@ abstract class AbstractCounterTest extends PHPUnit_Framework_TestCase
         $histogram->inc(array($value));
 
         $metrics = $this->adapter->collect();
-        self::assertInternalType('array', $metrics);
+        $this->assertIsArray($metrics);
         self::assertCount(1, $metrics);
         self::assertContainsOnlyInstancesOf(MetricFamilySamples::class, $metrics);
 
